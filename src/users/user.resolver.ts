@@ -10,9 +10,4 @@ export class UserResolver {
   sayHello(): string {
     return 'hello world!';
   }
-
-  @Query(() => String)
-  async signUp() {
-    return 'sign up';
-  }
 }
