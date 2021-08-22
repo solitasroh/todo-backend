@@ -1,8 +1,8 @@
-import { PasswordService } from './../services/password.service';
-import { PrismaService } from './../prisma/prisma.service';
-import { Auth, Token } from './model/auth.model';
+import { PasswordService } from './password.service';
+import { PrismaService } from './prisma.service';
+import { Token } from '../models/auth.model';
 import { ConflictException, Injectable } from '@nestjs/common';
-import { SignupInput } from './dto/signup.input';
+import { SignupInput } from '../auth/dto/signup.input';
 import { Prisma, User } from '@prisma/client';
 import { JwtService } from '@nestjs/jwt';
 
@@ -41,15 +41,18 @@ export class AuthService {
   validateUser(userId: string): Promise<User> {
     return this.prisma.user.findUnique({ where: { id: userId } });
   }
+
   private generateTokens(payload: { userId: string }): Token {
     return {
       accessToken: this.generateAccessToken(payload),
       refreshToken: this.generateRefreshToken(payload),
     };
   }
+
   private generateAccessToken(payload: { userId: string }): string {
     return this.jwtService.sign(payload);
   }
+
   private generateRefreshToken(payload: { userId: string }): string {
     return this.jwtService.sign(payload, {
       secret: process.env.JWT_REFRESH_SECRET,
