@@ -1,7 +1,11 @@
 import { PasswordService } from './password.service';
 import { PrismaService } from './prisma.service';
 import { Token } from '../models/auth.model';
-import { ConflictException, Injectable } from '@nestjs/common';
+import {
+  BadRequestException,
+  ConflictException,
+  Injectable,
+} from '@nestjs/common';
 import { SignupInput } from '../auth/dto/signup.input';
 import { Prisma, User } from '@prisma/client';
 import { JwtService } from '@nestjs/jwt';
@@ -37,7 +41,22 @@ export class AuthService {
       }
     }
   }
+  async login(email: string, password: string) {
+    const user = await this.prisma.user.findUnique({ where: { email } });
+    if (!user) {
+      throw new BadRequestException('email could not found');
+    }
 
+    const validPassword = await this.passwordService.validatePassword(
+      password,
+      user.password,
+    );
+    if (!validPassword) {
+      throw new BadRequestException('Invalid password');
+    }
+
+    return this.generateTokens({ userId: user.id });
+  }
   validateUser(userId: string): Promise<User> {
     return this.prisma.user.findUnique({ where: { id: userId } });
   }

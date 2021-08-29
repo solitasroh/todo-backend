@@ -1,3 +1,4 @@
+import { LoginInput } from './../auth/dto/login.input';
 import { SignupInput } from './dto/signup.input';
 import { AuthService } from '../services/auth.service';
 import { Auth } from '../models/auth.model';
@@ -13,6 +14,18 @@ export class AuthResolver {
       data,
     );
 
+    return {
+      accessToken,
+      refreshToken,
+    };
+  }
+
+  @Mutation(() => Auth)
+  async login(@Args('data') data: LoginInput) {
+    const { accessToken, refreshToken } = await this.authService.login(
+      data.email,
+      data.password,
+    );
     return {
       accessToken,
       refreshToken,
