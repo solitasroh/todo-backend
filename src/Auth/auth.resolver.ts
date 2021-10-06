@@ -1,4 +1,4 @@
-import { LoginInput } from './../auth/dto/login.input';
+import { LoginInput } from './../Auth/dto/login.input';
 import { SignupInput } from './dto/signup.input';
 import { AuthService } from '../services/auth.service';
 import { Auth } from '../models/auth.model';

@@ -3,7 +3,7 @@ import { AppController } from './app.controller';
 import { AppService } from './services/app.service';
 import { GraphQLModule } from '@nestjs/graphql';
 import { UsersModule } from './users/users.module';
-import { AuthModule } from './auth/auth.module';
+import { AuthModule } from './Auth/auth.module';
 import { ConfigModule } from '@nestjs/config';
 
 @Module({

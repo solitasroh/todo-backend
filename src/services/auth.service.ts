@@ -6,7 +6,7 @@ import {
   ConflictException,
   Injectable,
 } from '@nestjs/common';
-import { SignupInput } from '../auth/dto/signup.input';
+import { SignupInput } from '../Auth/dto/signup.input';
 import { Prisma, User } from '@prisma/client';
 import { JwtService } from '@nestjs/jwt';
 
